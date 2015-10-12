@@ -19,7 +19,7 @@ function wpInitMobileMenuContent()
 
 function wpShowMenuPopup(objMenu, event, popupId)
 {
-    wpInitPopupContent();
+   // wpInitPopupContent();
     if (typeof wpCustommenuTimerHide[popupId] != 'undefined') clearTimeout(wpCustommenuTimerHide[popupId]);
     objMenu = $(objMenu.id); var popup = $(popupId); if (!popup) return;
     if (!!wpActiveMenu) {
@@ -33,10 +33,15 @@ function wpShowMenuPopup(objMenu, event, popupId)
             if (!popupWidth) popupWidth = popup.getWidth();
             var pos = wpPopupPos(objMenu, popupWidth);
             popup.style.top = pos.top + 'px';
-            popup.style.left = pos.left + 'px';
+//            popup.style.left = pos.left + 'px';
             wpSetPopupZIndex(popup);
-            if (CUSTOMMENU_POPUP_WIDTH)
+            if (CUSTOMMENU_POPUP_WIDTH>0){
                 popup.style.width = CUSTOMMENU_POPUP_WIDTH + 'px';
+			}else{
+                popup.style.width = '100%';
+                popup.style.left = '0';
+				
+			}
             // --- Static Block width ---
             var block2 = $(popupId).select('div.block2');
             if (typeof block2[0] != 'undefined') {
@@ -65,7 +70,7 @@ function wpShowMenuPopup(objMenu, event, popupId)
 }
 
 function wpHideMenuPopup(element, event, popupId, menuId)
-{
+{ 
     if (typeof wpCustommenuTimerShow[popupId] != 'undefined') clearTimeout(wpCustommenuTimerShow[popupId]);
     var element = $(element); var objMenu = $(menuId) ;var popup = $(popupId); if (!popup) return;
     var wpCurrentMouseTarget = getCurrentMouseTarget(event);

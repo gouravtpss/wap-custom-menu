@@ -19,8 +19,8 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $active = ''; if ($this->isCategoryActive($category)) $active = ' act';
         $hasSubMenu = count($activeChildren);
         $catUrl = $this->getCategoryUrl($category);
-        $html[] = '<div id="menu-mobile-' . $id . '" class="menu-mobile level0' . $active . '">';
-        $html[] = '<div class="parentMenu">';
+        $html[] = '<li id="menu-mobile-' . $id . '" class="menu-mobile level0' . $active . '">';
+       // $html[] = '<div class="parentMenu">';
         // --- Top Menu Item ---
         $html[] = '<a class="level' . $level . $active . '" href="' . $catUrl .'">';
         $name = $this->escapeHtml($category->getName());
@@ -32,16 +32,16 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         if ($hasSubMenu) {
             $html[] = '<span class="button" rel="submenu-mobile-' . $id . '" onclick="wpSubMenuToggle(this, \'menu-mobile-' . $id . '\', \'submenu-mobile-' . $id . '\');">&nbsp;</span>';
         }
-        $html[] = '</div>';
+       // $html[] = '</div>';
         // --- Add Popup block (hidden) ---
         if ($hasSubMenu) {
             // --- draw Sub Categories ---
-            $html[] = '<div id="submenu-mobile-' . $id . '" rel="level' . $level . '" class="wp-custom-menu-submenu" style="display: none;">';
+            $html[] = '<ul id="submenu-mobile-' . $id . '" rel="level' . $level . '" class="wp-custom-menu-submenu" style="display: none;">';
             $html[] = $this->drawMobileMenuItem($activeChildren);
-            $html[] = '<div class="clearBoth"></div>';
-            $html[] = '</div>';
+            //$html[] = '<div class="clearBoth"></div>';
+            $html[] = '</ul>';
         }
-        $html[] = '</div>';
+        $html[] = '</li>';
         $html = implode("\n", $html);
         return $html;
     }
@@ -77,14 +77,14 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         // --- Popup functions for show ---
         $drawPopup = ($blockHtml || count($activeChildren));
         if ($drawPopup) {
-            $htmlTop[] = '<div id="menu' . $id . '" class="menu' . $active . '" onmouseover="wpShowMenuPopup(this, event, \'popup' . $id . '\');" onmouseout="wpHideMenuPopup(this, event, \'popup' . $id . '\', \'menu' . $id . '\')">';
+            $htmlTop[] = '<li id="menu' . $id . '" class="menu' . $active . '" onmouseover="wpShowMenuPopup(this, event, \'popup' . $id . '\');" onmouseout="wpHideMenuPopup(this, event, \'popup' . $id . '\', \'menu' . $id . '\')">';
         } else {
-            $htmlTop[] = '<div id="menu' . $id . '" class="menu' . $active . '">';
+            $htmlTop[] = '<li id="menu' . $id . '" class="menu' . $active . '">';
         }
         // --- Top Menu Item ---
-        $htmlTop[] = '<div class="parentMenu">';
+       // $htmlTop[] = '<div class="parentMenu">';
         if ($level == 0 && $drawPopup) {
-            $htmlTop[] = '<a  class="level' . $level . $active . '" href="javascript:void(0);" rel="'.$this->getCategoryUrl($category).'">';
+            $htmlTop[] = '<a  class="level' . $level . $active . '" href="'.$this->getCategoryUrl($category).'" rel="'.$this->getCategoryUrl($category).'">';
         } else {
             $htmlTop[] = '<a  class="level' . $level . $active . '" href="'.$this->getCategoryUrl($category).'">';
         }
@@ -92,36 +92,41 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         if (Mage::getStoreConfig('custom_menu/general/non_breaking_space')) {
             $name = str_replace(' ', '&nbsp;', $name);
         }
-        $htmlTop[] = '<span>' . $name . '</span>';
+        $htmlTop[] =  $name;
         $htmlTop[] = '</a>';
-        $htmlTop[] = '</div>';
-        $htmlTop[] = '</div>';
-        $this->_topMenu[] = implode("\n", $htmlTop);
-        // --- Add Popup block (hidden) ---
-        if ($drawPopup) {
+       // $htmlTop[] = '</div>';
+	   
+	   
+	   
+	    if ($drawPopup) {
             $htmlPopup = array();
             // --- Popup function for hide ---
-            $htmlPopup[] = '<div id="popup' . $id . '" class="wp-custom-menu-popup" onmouseout="wpHideMenuPopup(this, event, \'popup' . $id . '\', \'menu' . $id . '\')" onmouseover="wpPopupOver(this, event, \'popup' . $id . '\', \'menu' . $id . '\')">';
+            $htmlTop[] = '<ul id="popup' . $id . '" class="wp-custom-menu-popup" onmouseout="wpHideMenuPopup(this, event, \'popup' . $id . '\', \'menu' . $id . '\')" onmouseover="wpPopupOver(this, event, \'popup' . $id . '\', \'menu' . $id . '\')">';
             // --- draw Sub Categories ---
             if (count($activeChildren)) {
                 $columns = (int)Mage::getStoreConfig('custom_menu/columns/count');
-                $htmlPopup[] = '<div class="block1">';
-                $htmlPopup[] = $this->drawColumns($activeChildren, $columns);
-                $htmlPopup[] = '<div class="clearBoth"></div>';
-                $htmlPopup[] = '</div>';
+               // $htmlPopup[] = '<div class="block1">';
+                $htmlTop[] = $this->drawColumns($activeChildren, $columns);
+              //  $htmlPopup[] = '<div class="clearBoth"></div>';
+               // $htmlPopup[] = '</div>';
             }
             // --- draw Custom User Block ---
             if ($blockHtml) {
-                $htmlPopup[] = '<div id="' . $blockId . '" class="block2">';
-                $htmlPopup[] = $blockHtml;
-                $htmlPopup[] = '</div>';
+              //  $htmlPopup[] = '<div id="' . $blockId . '" class="block2">';
+                $htmlTop[] = $blockHtml;
+              //  $htmlPopup[] = '</div>';
             }
-            $htmlPopup[] = '</div>';
-            $this->_popupMenu[] = implode("\n", $htmlPopup);
+            $htmlTop[] = '</ul>';
+            $this->_popupMenu[] = implode("\n", $htmlTop);
         }
+	   
+        $htmlTop[] = '</li>';
+        $this->_topMenu[] = implode("\n", $htmlTop);
+        // --- Add Popup block (hidden) ---
+       
     }
 
-    public function drawMobileMenuItem($children, $level = 1)
+     public function drawMobileMenuItem($children, $level = 1)
     {
         $keyCurrent = $this->getCurrentCategory()->getId();
         $html = '';
@@ -135,31 +140,32 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                     $active = ' actParent';
                     if ($id == $keyCurrent) $active = ' act';
                 }
-                $html.= '<div id="menu-mobile-' . $id . '" class="itemMenu level' . $level . $active . '">';
+                $html.= '<li id="menu-mobile-' . $id . '" class="tt itemMenu level' . $level . $active . '">';
                 // --- format category name ---
                 $name = $this->escapeHtml($child->getName());
                 if (Mage::getStoreConfig('custom_menu/general/non_breaking_space')) $name = str_replace(' ', '&nbsp;', $name);
-                $html.= '<div class="parentMenu">';
+               // $html.= '<div class="parentMenu">';
                 $html.= '<a class="itemMenuName level' . $level . $active . '" href="' . $this->getCategoryUrl($child) . '"><span>' . $name . '</span></a>';
                 if (count($activeChildren) > 0) {
                     $html.= '<span class="button" rel="submenu-mobile-' . $id . '" onclick="wpSubMenuToggle(this, \'menu-mobile-' . $id . '\', \'submenu-mobile-' . $id . '\');">&nbsp;</span>';
                 }
-                $html.= '</div>';
+               //$html.= '</div>';
                 if (count($activeChildren) > 0) {
-                    $html.= '<div id="submenu-mobile-' . $id . '" rel="level' . $level . '" class="wp-custom-menu-submenu level' . $level . '" style="display: none;">';
+                    $html.= '<ul id="submenu-mobile-' . $id . '" rel="level' . $level . '" class="wp-custom-menu-submenu level' . $level . '" style="display: none;">';
                     $html.= $this->drawMobileMenuItem($activeChildren, $level + 1);
-                    $html.= '<div class="clearBoth"></div>';
-                    $html.= '</div>';
+                   // $html.= '<div class="clearBoth"></div>';
+                    $html.= '</ul>';
                 }
-                $html.= '</div>';
+                $html.= '</li>';
             }
         }
         return $html;
     }
 
+
     public function drawMenuItem($children, $level = 1)
     {
-        $html = '<div class="itemMenu level' . $level . '">';
+       // $html = '<ul class="itemMenu level' . $level . '">';
         $keyCurrent = $this->getCurrentCategory()->getId();
         foreach ($children as $child) {
             if (is_object($child) && $child->getIsActive()) {
@@ -172,16 +178,20 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                 // --- format category name ---
                 $name = $this->escapeHtml($child->getName());
                 if (Mage::getStoreConfig('custom_menu/general/non_breaking_space')) $name = str_replace(' ', '&nbsp;', $name);
-                $html.= '<a class="itemMenuName level' . $level . $active . '" href="' . $this->getCategoryUrl($child) . '"><span>' . $name . '</span></a>';
+				if($level > 1)
+			     $html.="<li>"; 
+                $html.= '<a class="itemMenuName level' . $level . $active . '" href="' . $this->getCategoryUrl($child) . '">' . $name . '</a>';
+				if($level > 1)
+			     $html.="</li>"; 
                 $activeChildren = $this->_getActiveChildren($child, $level);
                 if (count($activeChildren) > 0) {
-                    $html.= '<div class="itemSubMenu level' . $level . '">';
+                    $html.= '<ul class="itemSubMenu rr level' . $level . '">';
                     $html.= $this->drawMenuItem($activeChildren, $level + 1);
-                    $html.= '</div>';
+                    $html.= '</ul>';
                 }
             }
         }
-        $html.= '</div>';
+       // $html.= '</div>';
         return $html;
     }
 
@@ -200,9 +210,9 @@ class WP_CustomMenu_Block_Navigation extends Mage_Catalog_Block_Navigation
             if ($i == 1) $class.= ' first';
             if ($i == $lastColumnNumber) $class.= ' last';
             if ($i % 2) $class.= ' odd'; else $class.= ' even';
-            $html.= '<div class="column' . $class . '">';
+            $html.= '<li class="column' . $class . '">';
             $html.= $this->drawMenuItem($value, 1);
-            $html.= '</div>';
+            $html.= '</li>';
             $i++;
         }
         return $html;

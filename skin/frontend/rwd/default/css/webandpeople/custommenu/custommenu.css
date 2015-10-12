@@ -412,3 +412,144 @@ html[xmlns] #menu-button, html[xmlns] .parentMenu {
 #custommenu-mobile .level2 {
     background-color: #f1f1f1;
 }
+
+
+
+
+
+/* ============================================ *
+ * Navigation
+ * ============================================ */
+
+ul#custommenu{
+	position:relative
+}
+
+ul#custommenu li{
+	float:left;
+	display:inline-block;
+	vertical-align:top;
+}
+
+ul#custommenu li a{
+    background-color: #ffffff;
+    color: #636363;
+    text-transform: uppercase;
+	padding:10px 15px;
+	display:block;
+}
+
+ul#custommenu li a:hover, ul#custommenu li a.act{
+	color: #3399cc;
+	text-decoration:none
+}
+
+
+
+ul#custommenu > li > ul{
+	position:absolute;
+	display:block;
+	opacity:0;
+	visibility:hidden;
+/*	width:100%; */
+	background-color:#fbfbfb;
+    border: 1px solid #cccccc;
+	/*left:0; */
+	padding:10px;
+	z-index:15;
+	/*transition:all 0.4s ease*/
+}
+
+/*ul#custommenu li:hover ul{*/
+ul#custommenu li.active ul{
+	opacity:1;
+	visibility:visible;	
+}
+
+ul#custommenu li ul li{
+	width:25%;
+	float:left;
+}
+
+ul#custommenu li ul li ul li {
+	width:100% !important
+}
+
+ul#custommenu li ul li a{
+	background:none;
+	display:block;
+	margin:0;
+	padding:3px 15px;
+    color: #636363;
+    font-size: 13px;
+    text-transform: capitalize;
+}
+
+ul#custommenu li ul li .itemSubMenu{
+	padding-left:15px;
+	margin:5px 0;
+}
+
+ul#custommenu li ul li .itemSubMenu a{
+	font-size:12px;
+}
+
+
+
+
+#custommenu-mobile #menu-content{
+	padding:0;
+}
+
+#custommenu-mobile #menu-content li{
+	position:relative
+}
+
+#custommenu-mobile #menu-content li+li{
+	border-top: 1px solid #dadada;
+}
+
+#custommenu-mobile #menu-content > li > a{
+	display:block;
+	padding:10px 0 10px 10px;
+	color: #636363;
+	text-transform:uppercase
+}
+
+#custommenu-mobile #menu-content li a:hover{
+	background:#FFF;
+	color: #3399cc;
+}
+
+#custommenu-mobile #menu-content li a.act{
+	color: #3399cc;
+}
+
+#custommenu-mobile #menu-content li ul{
+    padding-left:0;
+	border-top: 1px solid #dadada;
+}
+
+#custommenu-mobile #menu-content li ul li a{
+	 padding-left: 30px;
+	 background-color:#e4e4e4;
+	 border-radius:0
+}
+
+#custommenu-mobile #menu-content li ul li a:hover{
+	background:white;
+}
+
+#custommenu-mobile #menu-content li ul li ul{
+	
+}
+
+#custommenu-mobile #menu-content li ul li ul li{
+
+}
+
+#custommenu-mobile #menu-content li ul li ul li a{
+	margin:0;
+	background:#f1f1f1;
+	padding-left:50px;
+}

@@ -1,6 +1,8 @@
 <?php
     Mage::helper('custommenu')->saveCurrentCategoryIdToSession();
     $menuData = Mage::helper('custommenu')->getMenuData();
+	$col =  Mage::getStoreConfig('custom_menu/columns/count');
+	
     extract($menuData);
     // ---
     $txtLoading = '';
@@ -9,7 +11,7 @@
     $wpInitContent = <<<HTML
     <div id="custommenu-loading" class="$xRtl">
         <div class="menu">
-            <div class="parentMenu menu0">
+            <div class="parentMenu menu0"> ->
                 <a href="javascript:;">
                     <span>$txtLoading</span>
                 </a>
@@ -17,7 +19,7 @@
         </div>
         <div class="clearBoth"></div>
     </div>
-    <div id="custommenu" class="$xRtl" style="display:none;">
+    <ul id="custommenu" class="$xRtl column-$col" style="display:none;">
         <div class="menu">
             <div class="parentMenu menu0">
                 <a href="javascript:;">
@@ -26,14 +28,14 @@
             </div>
         </div>
         <div class="clearBoth"></div>
-    </div>
+    </ul>
     <div id="custommenu-mobile" class="$xRtl" style="display:none;">
         <div id="menu-button" onclick="wpMenuButtonToggle()">
             <a href="javascript:void(0);">
                 <span>$txtMenu</span>
             </a>
         </div>
-        <div id="menu-content" style="display:none;">
+        <ul id="menu-content" style="display:none;">
             <div id="menu-mobile-loading" class="menu-mobile level0">
                 <div class="parentMenu">
                     <a href="javascript:;">
@@ -41,8 +43,8 @@
                     </a>
                 </div>
             </div>
-            <div class="clearBoth"></div>
-        </div>
+           <!-- <div class="clearBoth"></div> -->
+        </ul>
     </div>
 HTML;
 ?>
