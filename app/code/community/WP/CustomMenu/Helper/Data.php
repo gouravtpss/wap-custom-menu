@@ -71,11 +71,9 @@ class WP_CustomMenu_Helper_Data extends Mage_Core_Helper_Abstract
         if ($_showHomeLink) {
             $homeLink = <<<HTML
 <li id="menu-mobile-0" class="menu-mobile level0">
-    <!-- <div class="parentMenu"> -->
         <a href="$homeLinkUrl">
-            <span>$homeLinkText</span>
+            $homeLinkText
         </a>
-    <!-- </div> -->
 </li>
 HTML;
         }
@@ -108,11 +106,9 @@ HTML;
         if ($_showHomeLink) {
             $homeLink = <<<HTML
 <li class="menu er">
-   <!-- <div class="parentMenu menu0"> -->
         <a href="$homeLinkUrl">
-            <span>$homeLinkText</span>
+            $homeLinkText
         </a>
-   <!-- </div> -->
 </li>
 HTML;
     }
